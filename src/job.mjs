@@ -241,6 +241,7 @@ export default class extends EventEmitter {
       form: { query },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "SPARQL-proxy/20160318",
         Accept: this.accept,
       },
       json,
