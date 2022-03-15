@@ -162,14 +162,16 @@ const fs = _fs.promises;
     };
 
     let query;
-
+    let endpoint = config.backend;
     switch (req.method) {
       case "GET":
         query = req.query.query;
+        endpoint = req.query.endpoint || endpoint;
         break;
       case "POST":
         if (req.is("urlencoded")) {
           query = req.body.query;
+          endpoint = req.body.endpoint || endpoint;
         } else if (req.is("application/sparql-query")) {
           query = req.body;
         } else {
@@ -193,7 +195,7 @@ const fs = _fs.promises;
 
     const token = req.query.token;
     const job = new Job({
-      backend: config.backend,
+      backend: endpoint,
       rawQuery: query,
       accept: config.enableQuerySplitting
         ? "application/sparql-results+json"
