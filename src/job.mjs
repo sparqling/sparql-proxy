@@ -122,7 +122,7 @@ export default class extends EventEmitter {
 
   async run() {
     if (this.passthrough) {
-      return this.tryCache(this.cacheKey(this.rawQuery), async () => {
+      return this.tryCache(this.cacheKey(this.backend + ":" + this.rawQuery), async () => {
         return await this._reqPassthrough(this.rawQuery);
       });
     }
@@ -136,7 +136,7 @@ export default class extends EventEmitter {
     const normalizedQuery =
       preamble + new SparqlGenerator().stringify(parsedQuery);
 
-    return await this.tryCache(this.cacheKey(normalizedQuery), async () => {
+    return await this.tryCache(this.cacheKey(this.backend + ":" + normalizedQuery), async () => {
       const limit = Math.min(parsedQuery.limit || this.maxLimit, this.maxLimit);
 
       if (this.enableQuerySplitting && isSelectQuery(parsedQuery)) {
